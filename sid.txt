@@ -1,0 +1,23 @@
+function New-RandomSID {
+    $random = New-Object System.Random
+    $identifierAuthority = 5  # NT Authority
+    $subAuthorityCount = 8
+
+    # Generate the sub-authorities as an array of 8 random integers
+    $subAuthorities = @()
+    for ($i = 0; $i -lt $subAuthorityCount; $i++) {
+        $subAuthorities += $random.Next(0, [int]::MaxValue)
+    }
+
+    # Construct the SID string
+    $sidString = "S-1-$identifierAuthority"
+    foreach ($subAuthority in $subAuthorities) {
+        $sidString += "-$subAuthority"
+    }
+
+    return $sidString
+}
+
+# Generate a random SID
+$randomSID = New-RandomSID
+Write-Output "Random SID: $randomSID"
